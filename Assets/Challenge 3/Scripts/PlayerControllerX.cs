@@ -6,10 +6,11 @@ public class PlayerControllerX : MonoBehaviour
 {
     public bool gameOver;
 
-    public float floatForce;
-    public float horizontalSpeed = 5.0f;
+    public float floatForce = 5.0f;
+    public float maxUpwardVelocity = 10.0f;
+   // public float horizontalSpeed = 5.0f;
     private float gravityModifier = 1.5f;
-    private float upperBound = 15.0f;
+    private float upperBound = 14.0f;
     private Rigidbody playerRb;
 
     public ParticleSystem explosionParticle;
@@ -36,19 +37,26 @@ public class PlayerControllerX : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+   void Update()
     {
         // Balloon float up control with spacebar and add a height limit
         if (Input.GetKey(KeyCode.Space) && !gameOver && transform.position.y < upperBound)
         {
-            playerRb.AddForce(Vector3.up * floatForce);
+            // Limit the upward velocity
+            if (playerRb.velocity.y < maxUpwardVelocity)
+            {
+                playerRb.AddForce(Vector3.up * floatForce);
+            }
         }
 
-        // Horizontal movement control using A/D or Left/Right arrow keys
-        float horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * horizontalInput * horizontalSpeed * Time.deltaTime);
+        // Prevent balloon from exceeding the upper bound
+        if (transform.position.y >= upperBound)
+        {
+            // Set position to upperBound
+            transform.position = new Vector3(transform.position.x, upperBound, transform.position.z);
+        }
 
-        // Prevent balloon from going below the ground level (optional)
+        // Prevent balloon from going below the ground level
         if (transform.position.y < 0)
         {
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
