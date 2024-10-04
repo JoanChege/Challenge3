@@ -21,8 +21,6 @@ public class PlayerControllerX : MonoBehaviour
     public AudioClip moneySound;
     public AudioClip explodeSound;
 
-    public Text gameOverText;
-
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +34,6 @@ public class PlayerControllerX : MonoBehaviour
 
         // Apply a small upward force at the start of the game
         //playerRb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-
-         // Initially hide the Game Over text
-        gameOverText.gameObject.SetActive(false);
 
     }
 
@@ -78,10 +73,6 @@ public class PlayerControllerX : MonoBehaviour
             explosionParticle.Play();
             playerAudio.PlayOneShot(explodeSound, 1.0f);
             gameOver = true;
-
-            // Display the Game Over text
-            gameOverText.gameObject.SetActive(true);
-
             Debug.Log("Game Over!");
             Destroy(other.gameObject);
         }
