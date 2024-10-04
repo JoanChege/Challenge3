@@ -7,6 +7,7 @@ public class PlayerControllerX : MonoBehaviour
     public bool gameOver;
 
     public float floatForce;
+    public float horizontalSpeed = 5.0f;
     private float gravityModifier = 1.5f;
     private Rigidbody playerRb;
 
@@ -34,10 +35,20 @@ public class PlayerControllerX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // While space is pressed and player is low enough, float up
-        if (Input.GetKey(KeyCode.Space) && !gameOver)
+        // Balloon float up control with spacebar and add a height limit
+        if (Input.GetKey(KeyCode.Space) && !gameOver && transform.position.y < upperBound)
         {
             playerRb.AddForce(Vector3.up * floatForce);
+        }
+
+        // Horizontal movement control using A/D or Left/Right arrow keys
+        float horizontalInput = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * horizontalInput * horizontalSpeed * Time.deltaTime);
+
+        // Prevent balloon from going below the ground level (optional)
+        if (transform.position.y < 0)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         }
     }
 
@@ -46,22 +57,23 @@ public class PlayerControllerX : MonoBehaviour
         // if player collides with bomb, explode and set gameOver to true
         if (other.gameObject.CompareTag("Bomb"))
         {
+            explosionParticle.transform.position = transform.position;
             explosionParticle.Play();
             playerAudio.PlayOneShot(explodeSound, 1.0f);
             gameOver = true;
             Debug.Log("Game Over!");
             Destroy(other.gameObject);
-        } 
+        }
 
         // if player collides with money, fireworks
         else if (other.gameObject.CompareTag("Money"))
         {
+            // Set the fireworks particle position to the player's position before playing it
+            fireworksParticle.transform.position = transform.position;
             fireworksParticle.Play();
+
             playerAudio.PlayOneShot(moneySound, 1.0f);
             Destroy(other.gameObject);
-
         }
-
     }
-
 }
