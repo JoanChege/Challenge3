@@ -8,7 +8,7 @@ public class PlayerControllerX : MonoBehaviour
 
     //public float floatForce = 5.0f;
     public float floatForce;
-    public float downwardForce;
+   // public float downwardForce;
     public float maxUpwardVelocity = 10.0f;
    // public float horizontalSpeed = 5.0f;
     private float gravityModifier = 1.5f;
@@ -64,11 +64,7 @@ public class PlayerControllerX : MonoBehaviour
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         }
 
-        // Move the balloon down if "S" or the Down Arrow is pressed and the game is not over
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) && !gameOver)
-        {
-            playerRb.AddForce(Vector3.down * downwardForce);  // Apply downward force
-        }
+
     }
 
     private void OnCollisionEnter(Collision other)
