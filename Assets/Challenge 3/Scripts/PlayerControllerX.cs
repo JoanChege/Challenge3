@@ -40,7 +40,7 @@ public class PlayerControllerX : MonoBehaviour
    void Update()
     {
         // Balloon float up control with spacebar and add a height limit
-        if (Input.GetKey(KeyCode.Space) && !gameOver && transform.position.y < upperBound)
+        if (Input.GetKey(KeyCode.UpArrow) && !gameOver && transform.position.y < upperBound)
         {
             // Limit the upward velocity
             if (playerRb.velocity.y < maxUpwardVelocity)
