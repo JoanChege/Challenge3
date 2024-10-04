@@ -6,7 +6,8 @@ public class PlayerControllerX : MonoBehaviour
 {
     public bool gameOver;
 
-    public float floatForce = 5.0f;
+    //public float floatForce = 5.0f;
+    public float floatForce;
     public float maxUpwardVelocity = 10.0f;
    // public float horizontalSpeed = 5.0f;
     private float gravityModifier = 1.5f;
@@ -33,6 +34,9 @@ public class PlayerControllerX : MonoBehaviour
 
         // Apply a small upward force at the start of the game
         //playerRb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+
+         // Initially hide the Game Over text
+        gameOverText.gameObject.SetActive(false);
 
     }
 
@@ -72,6 +76,10 @@ public class PlayerControllerX : MonoBehaviour
             explosionParticle.Play();
             playerAudio.PlayOneShot(explodeSound, 1.0f);
             gameOver = true;
+
+            // Display the Game Over text
+            gameOverText.gameObject.SetActive(true);
+
             Debug.Log("Game Over!");
             Destroy(other.gameObject);
         }
